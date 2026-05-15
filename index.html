@@ -356,6 +356,64 @@ footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
   .skills-grid { grid-template-columns: 1fr; }
   .certs-grid { grid-template-columns: 1fr; }
 }
+
+/* ── PDF MODAL ── */
+.pdf-modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 1000;
+  background: rgba(15,25,50,0.82); backdrop-filter: blur(6px);
+  align-items: center; justify-content: center; padding: 1.5rem;
+}
+.pdf-modal-overlay.active { display: flex; }
+.pdf-modal {
+  background: var(--white); border-radius: 1.2rem;
+  width: 100%; max-width: 960px; max-height: 92vh;
+  display: flex; flex-direction: column;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.4);
+  overflow: hidden; animation: modalIn 0.3s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.pdf-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 1.6rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--light);
+}
+.pdf-modal-title { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--navy); }
+.pdf-modal-actions { display: flex; align-items: center; gap: 0.75rem; }
+.pdf-download-btn {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: var(--navy); color: var(--white);
+  padding: 0.45rem 1rem; border-radius: 0.4rem;
+  font-size: 0.8rem; font-weight: 600; text-decoration: none;
+  transition: background 0.2s;
+}
+.pdf-download-btn:hover { background: var(--mid); }
+.pdf-close-btn {
+  width: 2rem; height: 2rem; border-radius: 50%;
+  border: 1.5px solid var(--border); background: var(--white);
+  cursor: pointer; font-size: 1.1rem; color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+.pdf-close-btn:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.pdf-modal iframe { flex: 1; border: none; width: 100%; height: calc(92vh - 4rem); }
+.pdf-modal-footer {
+  padding: 0.7rem 1.6rem; border-top: 1px solid var(--border);
+  background: var(--light); font-size: 0.78rem; color: var(--muted); text-align: center;
+}
+.project-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.btn-report {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  background: var(--accent); color: var(--white);
+  padding: 0.5rem 1.1rem; border-radius: 0.4rem;
+  font-size: 0.85rem; font-weight: 600; cursor: pointer;
+  border: none; transition: background 0.2s, transform 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.btn-report:hover { background: #b07a2a; transform: translateY(-1px); }
 </style>
 </head>
 <body>
@@ -499,7 +557,10 @@ footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
             <span class="tag">LangGraph</span><span class="tag">GPT-4o</span><span class="tag">LangChain</span>
             <span class="tag">SQLite</span><span class="tag">Streamlit</span><span class="tag">Python</span>
           </div>
+          <div class="project-actions">
+          <button class="btn-report" onclick="openPDF('Banking_Customer_Support_AI_Agent_Report.pdf','Banking Customer Support AI Agent — Project Report')">📄 View Report</button>
           <a class="project-link" href="https://github.com/LishaJayesh/banking-ai-agent" target="_blank">View on GitHub →</a>
+        </div>
         </div>
         <div class="project-visual">
           <div class="project-icon">🏦</div>
@@ -530,7 +591,10 @@ footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
             <span class="tag">LangChain</span><span class="tag">GPT-4o</span><span class="tag">FAISS</span>
             <span class="tag">RAG</span><span class="tag">Streamlit</span><span class="tag">Plotly</span>
           </div>
+          <div class="project-actions">
+          <button class="btn-report" onclick="openPDF('InsightForge_Project_Report.pdf','InsightForge — AI-Powered BI Assistant Report')">📄 View Report</button>
           <a class="project-link" href="https://github.com/LishaJayesh/insightforge" target="_blank">View on GitHub →</a>
+        </div>
         </div>
         <div class="project-visual">
           <div class="project-icon">📊</div>
@@ -561,7 +625,10 @@ footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
             <span class="tag">LangGraph</span><span class="tag">GPT-4o-mini</span><span class="tag">NewsAPI</span>
             <span class="tag">Tavily</span><span class="tag">Streamlit</span>
           </div>
+          <div class="project-actions">
+          <button class="btn-report" onclick="openPDF('NewsGenie_Project_Report.pdf','NewsGenie — AI-Powered News Agent Report')">📄 View Report</button>
           <a class="project-link" href="https://github.com/LishaJayesh/newsgenie" target="_blank">View on GitHub →</a>
+        </div>
         </div>
         <div class="project-visual">
           <div class="project-icon">📰</div>
@@ -598,6 +665,37 @@ footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
           <div class="project-metric">
             <span class="metric-value">95%</span>
             <span class="metric-label">Model accuracy</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 5 -->
+      <div class="project-card fade-in">
+        <div class="project-body">
+          <div class="project-badge">EDA · BI Dashboard · Accredian Capstone</div>
+          <h3 class="project-title">Telecom User Demographics Dashboard</h3>
+          <p class="project-desc">Capstone project for the Accredian Global Certificate in Data Science — a full BI dashboard helping a telecom company understand its users' demographic characteristics based on mobile usage, geolocation, and device properties.</p>
+          <ul class="project-bullets">
+            <li>Analysed 500,000+ records from 70,000+ users sourced from CSV files and a MySQL database</li>
+            <li>Identified and resolved 8 distinct data quality challenges including missing values, duplicates, and inconsistent formats</li>
+            <li>Performed comprehensive EDA on pre-processed data to surface patterns in mobile usage, geolocation, and device behaviour</li>
+            <li>Delivered an executive BI dashboard and consulting report with actionable insights to improve business targeting and user segmentation</li>
+          </ul>
+          <div class="stack-tags">
+            <span class="tag">Python</span><span class="tag">SQL</span><span class="tag">MySQL</span>
+            <span class="tag">Pandas</span><span class="tag">Tableau</span><span class="tag">EDA</span>
+          </div>
+          <a class="project-link" href="https://github.com/LishaJayesh/telecom-dashboard" target="_blank">View on GitHub →</a>
+        </div>
+        <div class="project-visual">
+          <div class="project-icon">📱</div>
+          <div class="project-metric">
+            <span class="metric-value">500K+</span>
+            <span class="metric-label">Records analysed</span>
+          </div>
+          <div class="project-metric">
+            <span class="metric-value">70K+</span>
+            <span class="metric-label">Users profiled</span>
           </div>
         </div>
       </div>
@@ -698,19 +796,19 @@ footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
         </div>
       </div>
       <div class="cert-card">
-        <div class="cert-icon">🔬</div>
-        <div class="cert-info">
-          <h4>IBM Data Science Professional Certificate</h4>
-          <p>IBM / Coursera</p>
-          <div class="cert-year">May 2024</div>
-        </div>
-      </div>
-      <div class="cert-card">
         <div class="cert-icon">📊</div>
         <div class="cert-info">
           <h4>Global Certificate in Data Science</h4>
           <p>Accredian</p>
           <div class="cert-year">October 2021</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">🔬</div>
+        <div class="cert-info">
+          <h4>IBM Data Science Professional Certificate</h4>
+          <p>IBM / Coursera</p>
+          <div class="cert-year">May 2024</div>
         </div>
       </div>
     </div>
@@ -735,6 +833,23 @@ footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
   <p>Built by Lisha Jayesh · <a href="https://github.com/LishaJayesh">github.com/LishaJayesh</a> · Cary, NC</p>
 </footer>
 
+
+
+<!-- PDF MODAL -->
+<div class="pdf-modal-overlay" id="pdfModal" onclick="handleOverlayClick(event)">
+  <div class="pdf-modal">
+    <div class="pdf-modal-header">
+      <span class="pdf-modal-title" id="pdfModalTitle">Project Report</span>
+      <div class="pdf-modal-actions">
+        <a class="pdf-download-btn" id="pdfDownloadBtn" href="#" download>⬇ Download PDF</a>
+        <button class="pdf-close-btn" onclick="closePDF()" title="Close">✕</button>
+      </div>
+    </div>
+    <iframe id="pdfFrame" src="" title="Project Report"></iframe>
+    <div class="pdf-modal-footer">Use the download button above to save a local copy &nbsp;·&nbsp; Press Esc to close</div>
+  </div>
+</div>
+
 <script>
 // Scroll-triggered fade-ins
 const observer = new IntersectionObserver((entries) => {
@@ -746,6 +861,26 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// PDF Modal
+function openPDF(filename, title) {
+  document.getElementById('pdfModalTitle').textContent = title;
+  document.getElementById('pdfFrame').src = filename;
+  document.getElementById('pdfDownloadBtn').href = filename;
+  document.getElementById('pdfDownloadBtn').setAttribute('download', filename);
+  document.getElementById('pdfModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closePDF() {
+  document.getElementById('pdfModal').classList.remove('active');
+  document.getElementById('pdfFrame').src = '';
+  document.body.style.overflow = '';
+}
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('pdfModal')) closePDF();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePDF(); });
 </script>
+
 </body>
 </html>
