@@ -804,8 +804,18 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-// PDF Modal
-
+// PDF Report viewer — opens via Google Docs viewer in a new tab
+function viewReport(filename, title) {
+  const baseUrl = window.location.href.replace(/#.*$/, '').replace(/\/[^\/]*$/, '/');
+  const cleanBase = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
+  const pdfUrl = cleanBase + filename;
+  const viewerUrl = 'https://docs.google.com/viewer?embedded=false&url=' + encodeURIComponent(pdfUrl);
+  const win = window.open(viewerUrl, '_blank');
+  if (!win) {
+    // Popup blocked — fall back to direct open
+    window.location.href = pdfUrl;
+  }
+}
 </script>
 
 </body>
