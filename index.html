@@ -357,53 +357,6 @@ footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
   .certs-grid { grid-template-columns: 1fr; }
 }
 
-/* ── PDF MODAL ── */
-.pdf-modal-overlay {
-  display: none; position: fixed; inset: 0; z-index: 1000;
-  background: rgba(15,25,50,0.82); backdrop-filter: blur(6px);
-  align-items: center; justify-content: center; padding: 1.5rem;
-}
-.pdf-modal-overlay.active { display: flex; }
-.pdf-modal {
-  background: var(--white); border-radius: 1.2rem;
-  width: 95vw; max-width: 1100px; height: 92vh;
-  display: flex; flex-direction: column;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.4);
-  overflow: hidden; animation: modalIn 0.3s ease;
-}
-@keyframes modalIn {
-  from { opacity: 0; transform: translateY(24px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-.pdf-modal-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 1.1rem 1.6rem;
-  border-bottom: 1px solid var(--border);
-  background: var(--light);
-}
-.pdf-modal-title { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--navy); }
-.pdf-modal-actions { display: flex; align-items: center; gap: 0.75rem; }
-.pdf-download-btn {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  background: var(--navy); color: var(--white);
-  padding: 0.45rem 1rem; border-radius: 0.4rem;
-  font-size: 0.8rem; font-weight: 600; text-decoration: none;
-  transition: background 0.2s;
-}
-.pdf-download-btn:hover { background: var(--mid); }
-.pdf-close-btn {
-  width: 2rem; height: 2rem; border-radius: 50%;
-  border: 1.5px solid var(--border); background: var(--white);
-  cursor: pointer; font-size: 1.1rem; color: var(--muted);
-  display: flex; align-items: center; justify-content: center;
-  transition: background 0.2s, color 0.2s;
-}
-.pdf-close-btn:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
-.pdf-modal iframe { flex: 1; border: none; width: 100%; min-height: 75vh; height: calc(92vh - 7rem); display: block; }
-.pdf-modal-footer {
-  padding: 0.7rem 1.6rem; border-top: 1px solid var(--border);
-  background: var(--light); font-size: 0.78rem; color: var(--muted); text-align: center;
-}
 .project-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
 .btn-report {
   display: inline-flex; align-items: center; gap: 0.45rem;
@@ -558,7 +511,7 @@ footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
             <span class="tag">SQLite</span><span class="tag">Streamlit</span><span class="tag">Python</span>
           </div>
           <div class="project-actions">
-          <button class="btn-report" onclick="openPDF('Banking_Customer_Support_AI_Agent_Report.pdf','Banking Customer Support AI Agent — Project Report')">📄 View Report</button>
+          <button class="btn-report" onclick="viewReport('Banking_Customer_Support_AI_Agent_Report.pdf','Banking Customer Support AI Agent — Project Report')">📄 View Full Report</button>
           <a class="project-link" href="https://github.com/LishaJayesh/banking-ai-agent" target="_blank">View on GitHub →</a>
         </div>
         </div>
@@ -592,7 +545,7 @@ footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
             <span class="tag">RAG</span><span class="tag">Streamlit</span><span class="tag">Plotly</span>
           </div>
           <div class="project-actions">
-          <button class="btn-report" onclick="openPDF('InsightForge_Project_Report.pdf','InsightForge — AI-Powered BI Assistant Report')">📄 View Report</button>
+          <button class="btn-report" onclick="viewReport('InsightForge_Project_Report.pdf','InsightForge — AI-Powered BI Assistant Report')">📄 View Full Report</button>
           <a class="project-link" href="https://github.com/LishaJayesh/insightforge" target="_blank">View on GitHub →</a>
         </div>
         </div>
@@ -626,7 +579,7 @@ footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
             <span class="tag">Tavily</span><span class="tag">Streamlit</span>
           </div>
           <div class="project-actions">
-          <button class="btn-report" onclick="openPDF('NewsGenie_Project_Report.pdf','NewsGenie — AI-Powered News Agent Report')">📄 View Report</button>
+          <button class="btn-report" onclick="viewReport('NewsGenie_Project_Report.pdf','NewsGenie — AI-Powered News Agent Report')">📄 View Full Report</button>
           <a class="project-link" href="https://github.com/LishaJayesh/newsgenie" target="_blank">View on GitHub →</a>
         </div>
         </div>
@@ -835,19 +788,8 @@ footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
 
 
 
-<!-- PDF MODAL -->
-<div class="pdf-modal-overlay" id="pdfModal" onclick="handleOverlayClick(event)">
-  <div class="pdf-modal">
-    <div class="pdf-modal-header">
-      <span class="pdf-modal-title" id="pdfModalTitle">Project Report</span>
-      <div class="pdf-modal-actions">
-        <a class="pdf-download-btn" id="pdfDownloadBtn" href="#" download>⬇ Download PDF</a>
-        <button class="pdf-close-btn" onclick="closePDF()" title="Close">✕</button>
-      </div>
     </div>
-    <iframe id="pdfFrame" src="" title="Project Report"></iframe>
-    <div class="pdf-modal-footer">⬇ Use <strong>Download PDF</strong> to save a copy &nbsp;·&nbsp; If the preview is blank, click Download to open &nbsp;·&nbsp; Press <strong>Esc</strong> to close</div>
-  </div>
+</div>
 </div>
 
 <script>
@@ -863,36 +805,7 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
 // PDF Modal
-function openPDF(filename, title) {
-  document.getElementById('pdfModalTitle').textContent = title;
-  document.getElementById('pdfDownloadBtn').href = filename;
-  document.getElementById('pdfDownloadBtn').setAttribute('download', filename);
-  document.getElementById('pdfModal').classList.add('active');
-  document.body.style.overflow = 'hidden';
-  // Use Google Docs viewer as fallback for better cross-browser rendering
-  const base = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
-  const fullUrl = base + filename;
-  const frame = document.getElementById('pdfFrame');
-  // Try native first, fall back to Google Docs viewer if blank after 2s
-  frame.src = filename;
-  frame._fallbackTimer = setTimeout(() => {
-    const h = frame.contentWindow ? frame.contentWindow.document.body?.scrollHeight : 0;
-    if (!h || h < 100) {
-      frame.src = 'https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(fullUrl);
-    }
-  }, 2500);
-}
-function closePDF() {
-  const frame = document.getElementById('pdfFrame');
-  if (frame._fallbackTimer) clearTimeout(frame._fallbackTimer);
-  document.getElementById('pdfModal').classList.remove('active');
-  frame.src = '';
-  document.body.style.overflow = '';
-}
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById('pdfModal')) closePDF();
-}
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closePDF(); });
+
 </script>
 
 </body>
